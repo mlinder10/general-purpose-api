@@ -1,18 +1,19 @@
-import { text, sqliteTable } from "drizzle-orm/sqlite-core";
+import { SQL_UUID } from "@/utils/constants";
+import { text, sqliteTable, numeric } from "drizzle-orm/sqlite-core";
 
 export const wcjUserTable = sqliteTable("wcj_user", {
-  id: text("id").primaryKey().default(crypto.randomUUID()),
+  id: text("id").primaryKey().default(SQL_UUID),
   email: text("email").notNull(),
   password: text("password").notNull(),
   username: text("name").notNull(),
-  createdAt: text("created_at").notNull().default(new Date().toISOString()),
+  createdAt: numeric("created_at").notNull(),
 });
 
 export const wcjPostTable = sqliteTable("wcj_post", {
-  id: text("id").primaryKey().default(crypto.randomUUID()),
+  id: text("id").primaryKey().default(SQL_UUID),
   word: text("title").notNull(),
   definition: text("content").notNull(),
   partOfSpeech: text("part_of_speech").notNull(),
   authorId: text("author_id").notNull(),
-  createdAt: text("created_at").notNull().default(new Date().toISOString()),
+  createdAt: numeric("created_at").notNull(),
 });
