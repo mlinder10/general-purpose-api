@@ -3,7 +3,11 @@ config();
 import type { Config } from "drizzle-kit";
 
 export default {
-  schema: ["./src/db/pc-schema.ts", "./src/db/wcj-schema.ts"],
+  schema: [
+    "src/db/pc-schema.ts",
+    "src/db/wcj-schema.ts",
+    "src/app/api/vnc/v1/_weights/vnc-schema.ts",
+  ],
   out: "./migrations",
   dialect: "turso",
   dbCredentials: {
