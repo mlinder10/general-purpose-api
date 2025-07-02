@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { eq, sql } from "drizzle-orm";
 import { db } from "./_weights/db";
-import { vectorSimilarity, vncExercises } from "./_weights/vnc-schema";
 import { createEmbeddingsFile, writeEmbeddingsToDB } from "./_weights/encoder";
+import { vncExercises, vectorSimilarity } from "@/db";
 
 export async function GET() {
   try {

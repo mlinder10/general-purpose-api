@@ -47,12 +47,12 @@ export async function logoutAndRedirect(key: string) {
   // return { redirectTo: "/" };
 }
 
-export async function getSession(): Promise<Session | null> {
+export async function getSession(key: string): Promise<Session | null> {
   const head = await headers();
   const jwt = head
     .get("cookie")
     ?.split("; ")
-    .filter((v) => v.startsWith(process.env.JWT_KEY!));
+    .filter((v) => v.startsWith(key));
   if (jwt === undefined || jwt.length === 0) {
     return null;
   }

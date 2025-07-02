@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from "fs";
 import { embedContent } from "./gemini";
 import { zip } from "@/utils/helpers";
 import { db } from "./db";
-import { VECTOR_DIMENSIONALITY, vncExercises } from "./vnc-schema";
+import { VNC_EXERCISE_VECTOR_DIMENSIONALITY, vncExercises } from "@/db";
 
 type Exercise = {
   id: string;
@@ -33,25 +33,25 @@ function writeData<T>(filename: string, data: T) {
 
 async function getEmbeddings(exercises: Exercise[]) {
   // removed names
-  // removed body part
   // weighting
   // heavy primary group weighting
   const exercisesText = exercises.map(
     (e) => `
-    ${(e.primaryGroup + " ").repeat(10)}
-    ${e.secondaryGroups.join(" ")}
+    PRIMARY: ${(e.primaryGroup + " ").repeat(10)}
+    SECONDARY: ${e.secondaryGroups.join(" ")}
+    BODY PART: ${e.bodyPart}
 
-    ${e.exerciseType}
-    ${e.equipmentType}
-    ${e.repsLow}
-    ${e.repsHigh}
+    GROUP TYPE: ${e.exerciseType}
+    EQUIPMENT: ${e.equipmentType}
+    MIN REPS: ${e.repsLow}
+    MAX REPS: ${e.repsHigh}
     `
   );
 
   return await Promise.all(
     exercisesText.map((e) =>
       embedContent(e, {
-        outputDimensionality: VECTOR_DIMENSIONALITY,
+        outputDimensionality: VNC_EXERCISE_VECTOR_DIMENSIONALITY,
         taskType: "CLUSTERING",
       })
     )
@@ -59,7 +59,7 @@ async function getEmbeddings(exercises: Exercise[]) {
 }
 
 const TARGET_FILE =
-  "src/app/api/vnc/v1/_weights/embeddings/clustering_64d_no-names_no-body-part_groups-weighted_heavy-primary-groups.json";
+  "src/app/api/vnc/v1/_weights/embeddings/clustering_64d_no-names_groups-weighted_heavy-primary-groups.json";
 
 export async function createEmbeddingsFile() {
   const exercises = readData<Exercise[]>(

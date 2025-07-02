@@ -6,5 +6,44 @@ POST http://localhost:3000/api/vnc/v1
 Content-Type: application/json
 
 {
-  "id": "80"
+  "id": "43"
 }
+
+### WCJ ----------------------------------------------------------------
+
+POST http://localhost:3000/api/wcj/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "username": "testuser",
+  "password": "testtest"
+}
+
+###
+
+POST http://localhost:3000/api/wcj/v1/define
+Content-Type: application/json
+
+{
+  "word": "hello"
+}
+
+###
+
+POST http://localhost:3000/api/wcj/v1/post
+Content-Type: application/json
+Cookie: wcj-jwt=eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjUxN2NlNjIwLTk2YmItNDAzNi04NjZmLTFiMzFkYjQ5NTVjZSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIiLCJleHAiOjE3ODMwMzg3ODh9.XDxLDhatxZKB6o-fuVGNfdMqE7TZ0qnlG2L_nVzA8ac
+
+{
+  "word": "hello",
+  "definition": "Used as a greeting or to begin a telephone conversation.",
+  "partOfSpeech": "interjection",
+  "example": "Hello, John, how are you?"
+}
+
+###
+
+GET http://localhost:3000/api/wcj/v1/post?word=hello
+Content-Type: application/json
+Cookie: wcj-jwt=eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjUxN2NlNjIwLTk2YmItNDAzNi04NjZmLTFiMzFkYjQ5NTVjZSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIiLCJleHAiOjE3ODMwMzg3ODh9.XDxLDhatxZKB6o-fuVGNfdMqE7TZ0qnlG2L_nVzA8ac

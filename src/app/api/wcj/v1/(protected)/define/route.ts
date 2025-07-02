@@ -1,5 +1,5 @@
-import { stripAndParse } from "@/llm";
-import Gemini from "@/llm/gemini";
+import { stripAndParse } from "@/ai";
+import { Gemini } from "@/ai";
 
 export async function POST(req: Request) {
   try {
@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const result = await defineWord(word);
     if (!result.success) return new Response(result.error, { status: 400 });
 
-    return new Response(JSON.stringify(word.data), { status: 200 });
+    return new Response(JSON.stringify(result.data), { status: 200 });
   } catch (error) {
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });

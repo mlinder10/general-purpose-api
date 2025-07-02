@@ -6,7 +6,7 @@ export default {
   schema: [
     "src/db/pc-schema.ts",
     "src/db/wcj-schema.ts",
-    "src/app/api/vnc/v1/_weights/vnc-schema.ts",
+    "src/db/vnc-schema.ts",
   ],
   out: "./migrations",
   dialect: "turso",

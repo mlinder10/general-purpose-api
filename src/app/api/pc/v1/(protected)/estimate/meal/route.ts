@@ -1,5 +1,4 @@
-import { LLM, stripAndParse } from "@/llm";
-import Gemini from "@/llm/gemini";
+import { LLM, stripAndParse, Gemini } from "@/ai";
 
 export async function POST(req: Request) {
   try {

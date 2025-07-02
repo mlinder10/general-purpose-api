@@ -1,5 +1,8 @@
-import { GoogleGenAI } from "@google/genai";
+import { EmbedContentConfig, GoogleGenAI } from "@google/genai";
 import { Prompt, LLM } from "./llm";
+import { EmbeddingModel } from "./embedding";
+
+// LLM
 
 type GeminiModel =
   | "gemini-2.0-flash"
@@ -11,7 +14,7 @@ type GeminiInput =
   | { text: string }
   | { inlineData: { mimeType: string; data: string } };
 
-class Gemini implements LLM {
+export class Gemini implements LLM {
   private ai;
   private model;
 
@@ -61,4 +64,41 @@ class Gemini implements LLM {
   }
 }
 
-export default Gemini;
+// Embedding
+
+type GoogleEmbeddingModel = "text-embedding-004";
+
+type GoogleEmbeddingConstructor = {
+  model?: GoogleEmbeddingModel;
+  config?: EmbedContentConfig;
+};
+
+export class GoogleEmbedding implements EmbeddingModel {
+  private ai;
+  private model;
+  private config;
+
+  constructor({
+    model = "text-embedding-004",
+    config,
+  }: GoogleEmbeddingConstructor) {
+    this.ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+    this.model = model;
+    this.config = config;
+  }
+
+  async embed(content: string[]) {
+    const result = await this.ai.models.embedContent({
+      model: this.model,
+      contents: content,
+      config: this.config,
+    });
+    if (!result.embeddings) throw new Error("Failed to embed content");
+    const values = Array.from(
+      result.embeddings.values().map((v) => v.values)
+    ).filter((v) => v !== undefined);
+    if (values.length !== content.length)
+      throw new Error("Failed to embed content");
+    return values;
+  }
+}
